@@ -16,7 +16,7 @@ export default function SignUp(props) {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../../assets/images.png')}
+                source={require('../../assets/Image/appLogo.png')}
                 style={styles.image}
             />
             <View style={styles.innerView}>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         alignSelf: 'center',
         color: Colors.white,
-        margin: 3,
+        marginRight: 8,
     },
     signText1: {
         fontSize: 20,
