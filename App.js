@@ -1,7 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Colors } from './src/components/Colors';
 import { NavigationContainer } from "@react-navigation/native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import SignIn from './src/screens/SignIn';
@@ -23,11 +21,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    justifyContent: 'center',
-  },
-});

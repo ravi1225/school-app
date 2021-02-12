@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground } from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import { Colors } from "../components/Colors";
 
 
@@ -15,48 +15,46 @@ export default function SignUp(props) {
 
     return (
         <View style={styles.container}>
-            <ImageBackground
-                source={require("../../assets/BackgroundImage.png")}
-                style={styles.loginImage}
-                resizeMode="cover"
-            >
-                <View style={styles.innerView}>
-                    <Text style={styles.text}> Email :</Text>
-                    <TextInput
-                        style={styles.inputText}
-                        value={email}
-                        onChangeText={(e) => setEmail(e)}
-                    />
-                    <Text style={styles.text}> Password :</Text>
-                    <TextInput
-                        style={styles.inputText}
-                        value={password}
-                        secureTextEntry={true}
-                        onChangeText={(e) => setPassword(e)}
-                    />
-                    <Text style={styles.text}> Confirm Password :</Text>
-                    <TextInput
-                        style={styles.inputText}
-                        value={confirm}
-                        secureTextEntry={true}
-                        onChangeText={(e) => setConfirm(e)}
-                    />
-                </View>
-                <TouchableOpacity style={styles.signUp}>
-                    <Text style={styles.opacityText}> SIGN UP </Text>
-                </TouchableOpacity>
-                <View style={styles.lastView}>
-                    <Text style={styles.signText}>
-                        Already a member?
+            <Image
+                source={require('../../assets/images.png')}
+                style={styles.image}
+            />
+            <View style={styles.innerView}>
+                <Text style={styles.text}> Email :</Text>
+                <TextInput
+                    style={styles.inputText}
+                    value={email}
+                    onChangeText={(e) => setEmail(e)}
+                />
+                <Text style={styles.text}> Password :</Text>
+                <TextInput
+                    style={styles.inputText}
+                    value={password}
+                    secureTextEntry={true}
+                    onChangeText={(e) => setPassword(e)}
+                />
+                <Text style={styles.text}> Confirm Password :</Text>
+                <TextInput
+                    style={styles.inputText}
+                    value={confirm}
+                    secureTextEntry={true}
+                    onChangeText={(e) => setConfirm(e)}
+                />
+            </View>
+            <TouchableOpacity style={styles.opacitySign}>
+                <Text style={styles.opacityText}> SIGN UP </Text>
+            </TouchableOpacity>
+            <View style={styles.lastView}>
+                <Text style={styles.signText}>
+                    Already a member?
                     </Text>
-                    <Text
-                        style={styles.signText}
-                        onPress={pressHandler}
-                    >
-                        Sign in
-                    </Text>
-                </View>
-            </ImageBackground>
+                <Text
+                    style={styles.signText1}
+                    onPress={pressHandler}
+                >
+                    Sign in
+                </Text>
+            </View>
         </View>
     );
 }
@@ -64,6 +62,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
+        backgroundColor: Colors.black,
+    },
+    image: {
+        resizeMode: 'contain',
+        width: 120,
+        alignSelf: 'center',
     },
     loginImage: {
         flex: 1,
@@ -75,26 +79,26 @@ const styles = StyleSheet.create({
     inputText: {
         height: 30,
         borderBottomWidth: 0.5,
-        borderBottomColor: Colors.black,
+        borderBottomColor: Colors.white,
         margin: 10,
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 20,
     },
     text: {
-        color: Colors.black,
+        color: Colors.white,
         margin: 5,
         fontSize: 20,
     },
-    signUp: {
-        height: 40,
-        fontSize: 20,
+    opacitySign: {
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
         width: 200,
         alignSelf: 'center',
-        backgroundColor: Colors.CornflowerBlue,
-        margin: 10
+        backgroundColor: Colors.blue,
+        margin: 10,
+        marginBottom: 20,
     },
     opacityText: {
         color: Colors.white,
@@ -103,9 +107,17 @@ const styles = StyleSheet.create({
     signText: {
         fontSize: 20,
         alignSelf: 'center',
-        color: Colors.black,
+        color: Colors.white,
         margin: 3,
+    },
+    signText1: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: Colors.white,
         borderBottomWidth: 1,
+        borderBottomColor: Colors.white,
+        fontWeight: 'bold',
+        color: Colors.blue,
     },
     lastView: {
         flexDirection: 'row',
