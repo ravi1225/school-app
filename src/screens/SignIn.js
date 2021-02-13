@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { environment } from "../../environment";
 import { Colors } from "../components/Colors";
+import axios from 'axios';
 
 
 export default function SignIn(props) {
@@ -10,6 +12,18 @@ export default function SignIn(props) {
 
     const pressHandler = () => {
         props.navigation.navigate("SignUp");
+    }
+
+    const signIn = () => {
+        const user = {
+            "user_name": email,
+            "password": password
+        };
+
+        axios.post(`${environment.apiBase}/brand/login`, user)
+            .then(res => {
+                props.navigation.navigate("Home")
+            })
     }
 
     return (
@@ -34,7 +48,7 @@ export default function SignIn(props) {
                     onChangeText={(e) => setPassword(e)}
                 />
             </View>
-            <TouchableOpacity style={styles.opacitySign}>
+            <TouchableOpacity style={styles.opacitySign} onPress={signIn}>
                 <Text style={styles.opacityText}> SIGN IN </Text>
             </TouchableOpacity >
 
