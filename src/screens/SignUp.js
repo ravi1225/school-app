@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from "../components/Colors";
 import axios from 'axios';
 import { environment } from '../../environment';
 
 
 export default function SignUp(props) {
-
-    const [email, setEmail] = useState('');
+    const [brand, setBrand] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
 
@@ -17,14 +18,17 @@ export default function SignUp(props) {
 
     const handlerClick = () => {
         const user = {
-            "user_name": email,
+            "brand_name": brand,
+            "user_name": name,
             "password": password,
             "confirm_password": confirm
         };
         axios.post(`${environment.apiBase}/brand/register`, user)
             .then(res => {
-                props.navigation.navigate("Home")
+
+                props.navigation.navigate("SignIn")
             })
+
     }
 
     return (
@@ -34,26 +38,38 @@ export default function SignUp(props) {
                 style={styles.image}
             />
             <View style={styles.innerView}>
-                <Text style={styles.text}> Email :</Text>
+                <Text style={styles.text}> Brand :</Text>
                 <TextInput
                     style={styles.inputText}
-                    value={email}
-                    onChangeText={(e) => setEmail(e)}
+                    value={brand}
+                    onChangeText={(e) => setBrand(e)}
+                />
+                <Text style={styles.text}> User Name :</Text>
+                <TextInput
+                    style={styles.inputText}
+                    value={name}
+                    onChangeText={(e) => setName(e)}
                 />
                 <Text style={styles.text}> Password :</Text>
-                <TextInput
-                    style={styles.inputText}
-                    value={password}
-                    secureTextEntry={true}
-                    onChangeText={(e) => setPassword(e)}
-                />
+                <View style={styles.passwordView}>
+                    <TextInput
+                        style={styles.inputText1}
+                        value={password}
+                        secureTextEntry={true}
+                        onChangeText={(e) => setPassword(e)}
+                    />
+                    <Ionicons name='ios-checkmark-circle' size={20} color={Colors.blue} />
+                </View>
                 <Text style={styles.text}> Confirm Password :</Text>
-                <TextInput
-                    style={styles.inputText}
-                    value={confirm}
-                    secureTextEntry={true}
-                    onChangeText={(e) => setConfirm(e)}
-                />
+                <View style={styles.passwordView}>
+                    <TextInput
+                        style={styles.inputText1}
+                        value={confirm}
+                        secureTextEntry={true}
+                        onChangeText={(e) => setConfirm(e)}
+                    />
+                    <Ionicons name='ios-checkmark-circle' size={20} color={Colors.blue} />
+                </View>
             </View>
             <TouchableOpacity style={styles.opacitySign} onPress={handlerClick}>
                 <Text style={styles.opacityText}> SIGN UP </Text>
@@ -90,6 +106,10 @@ const styles = StyleSheet.create({
     innerView: {
         margin: 20,
     },
+    passwordView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
     inputText: {
         height: 30,
         borderBottomWidth: 0.5,
@@ -97,6 +117,15 @@ const styles = StyleSheet.create({
         margin: 10,
         color: Colors.white,
         fontSize: 20,
+    },
+    inputText1: {
+        height: 30,
+        borderBottomWidth: 0.5,
+        borderBottomColor: Colors.white,
+        margin: 10,
+        color: Colors.white,
+        fontSize: 20,
+        minWidth: 330,
     },
     text: {
         color: Colors.white,

@@ -1,20 +1,87 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+    DrawerContentScrollView,
+    DrawerItemList,
+} from '@react-navigation/drawer';
+
+const Drawer = createDrawerNavigator();
 
 
-export default function Home() {
+function CustomDrawerContent(props) {
+    return (
+        <View style={{ flex: 1 }}>
+            <DrawerContentScrollView {...props}>
+                <View style={{ flexDirection: 'row', borderBottomWidth: 1, minHeight: 100, alignItems: 'center', justifyContent: 'flex-start', padding: 5, margin: 5 }}>
+                    <FontAwesome5 name="user-alt" size={25} />
+                    <Text style={{ fontSize: 20 }}> Hello, </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}> Ravi Ranjan </Text>
+                </View>
+                <DrawerItemList {...props} />
+            </DrawerContentScrollView>
+        </View>
+    );
+}
+
+const MyDrawer = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text>Home screen </Text>
+            <View style={styles.headerView}>
+                <TouchableOpacity style={styles.headerFontIcon} onPress={() => navigation.openDrawer()}>
+                    <FontAwesome name="bars" size={40} />
+                </TouchableOpacity>
+                <View style={styles.headerTextView}>
+                    <Text style={styles.headerText}> Home </Text>
+                </View>
+            </View>
         </View>
     )
+}
 
+
+function About({ navigation }) {
+    return (
+        <View>
+            <Text>Navigation Screen</Text>
+        </View>
+    );
+}
+
+export default function Home() {
+
+    return (
+        <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
+            <Drawer.Screen name="Home" component={MyDrawer} />
+            <Drawer.Screen name="About" component={About} />
+        </Drawer.Navigator>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: 'center'
+        marginTop: 20
+    },
+    headerView: {
+        borderBottomWidth: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        minHeight: 70,
+    },
+    headerFontIcon: {
+        alignSelf: 'center',
+        marginLeft: 5
+    },
+    headerTextView: {
+        justifyContent: 'center',
+        marginRight: 150,
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold'
     },
 })

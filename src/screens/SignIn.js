@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import { environment } from "../../environment";
 import { Colors } from "../components/Colors";
 import axios from 'axios';
@@ -7,23 +7,26 @@ import axios from 'axios';
 
 export default function SignIn(props) {
 
-    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [isloading, SetIsloading] = useState(false);
 
     const pressHandler = () => {
         props.navigation.navigate("SignUp");
     }
 
-    const signIn = () => {
+    const signIn = async () => {
+        SetIsloading(true)
         const user = {
-            "user_name": email,
+            "user_name": name,
             "password": password
         };
-
-        axios.post(`${environment.apiBase}/brand/login`, user)
+        const res = axios.post(`${environment.apiBase}/brand/login`, user)
             .then(res => {
                 props.navigation.navigate("Home")
+
             })
+
     }
 
     return (
@@ -34,11 +37,11 @@ export default function SignIn(props) {
                 style={styles.image}
             />
             <View style={styles.innerView}>
-                <Text style={styles.text}> Email :</Text>
+                <Text style={styles.text}> User Name :</Text>
                 <TextInput
                     style={styles.inputText}
-                    value={email}
-                    onChangeText={(e) => setEmail(e)}
+                    value={name}
+                    onChangeText={(e) => setName(e)}
                 />
                 <Text style={styles.text}> Password :</Text>
                 <TextInput
@@ -51,7 +54,7 @@ export default function SignIn(props) {
             <TouchableOpacity style={styles.opacitySign} onPress={signIn}>
                 <Text style={styles.opacityText}> SIGN IN </Text>
             </TouchableOpacity >
-
+            {isloading ? <ActivityIndicator size={50} color={Colors.blue} /> : null}
             <View style={styles.lastView}>
                 <Text style={styles.signText}>
                     Don't have an Account?
