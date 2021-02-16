@@ -4,16 +4,21 @@ import Heading from "./Heading";
 import Data from './Data';
 
 export default function AllComponents({ type }) {
-    const [dataes, setDataes] = useState(false)
+    // const [dataes, setDataes] = useState(false)
 
-    const handleSetStauss = () => {
-        setDataes(true)
-    }
+    // const handleSetStauss = () => {
+    //     setDataes(true)
+    // }
     return (
         <SafeAreaView style={styles.container}>
-            <Heading type={type} handleSetStauss={handleSetStauss} />
+            <Heading type={type}
+            //  handleSetStauss={handleSetStauss}
+              />
             <View>
-                <Data dataes={dataes} />
+                <Data 
+                // dataes={dataes} 
+
+                />
             </View>
         </SafeAreaView>
     );

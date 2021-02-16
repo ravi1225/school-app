@@ -15,10 +15,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AddModal(props) {
 
+
     const [subbrand, setBrand] = useState('');
     const [description, setDescription] = useState('');
-
-
 
     const addOffice = async () => {
         const user = {
@@ -32,14 +31,10 @@ export default function AddModal(props) {
         try {
             await axios.post(`${environment.apiBase}/brand/sub_brand/add`, user, { headers })
                 .then(res => {
-                    console.log((res));
-                    if (res.config.data) {
-                        props.handleSetStauss()
-                    }
+                     console.log(res, 'aaaaaaaaaaaaaa')       
                 })
             setDescription('');
             setBrand('');
-            props.setModalValue(false)
         } catch (err) {
             console.error(err)
         }

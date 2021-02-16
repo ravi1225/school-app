@@ -29,7 +29,7 @@ export default function Heading(props) {
                     modalVal={modalVal}
                     handleClick={handleClick}
                     setModalVal={setModalVal}
-                    handleSetStauss={props.handleSetStauss}
+                    // handleSetStauss={props.handleSetStauss}
                 />
             ) : null}
         </>

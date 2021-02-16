@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     FlatList,
     StyleSheet,
@@ -9,29 +9,48 @@ import {
 import { Colors } from "./Colors";
 import axios from 'axios';
 import { environment } from '../../environment';
-import { useEffect } from "react";
-import { log } from "react-native-reanimated";
-
-export default function Todo({ dataes }) {
-
-    useEffect = (() => {
-        if (dataes) {
-            const res = axios.post(`${environment.apiBase}/brand/sub_brands`).then(res => 
-            
-            )
-        }
-
-    }, [dataes])
+import { connect } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getSubBrand } from "../Redux/Action/action";
 
 
+const Data =(props) => {
+    let result =[];
+    
+    useEffect(() => {
+        getResult();
+    }, [getResult]);
+
+        const getResult = async () => {
+            const token = await AsyncStorage.getItem("token");
+            const headers = {
+                "token": token
+            }
+            try {
+                     axios.get(`${environment.apiBase}/brand/sub_brands`, { headers })
+                    .then((res) =>{
+                        res.data.forEach((user,i)=>{
+                            if(user.user_name=='Ravi Ranjan')
+                            {
+                            res.data[i].sub_brand.forEach(s=>{
+                                result.push({name:s.subBrand_name,des:s.description})
+                             })
+                            }
+                        })
+                        props.dispatch(getSubBrand(result));
+                    })
+                }catch (err) {
+                    console.error(err);
+                }        
+            }
 
     return (
         <SafeAreaView style={styles.firstView}>
             <FlatList
-                data={props.todo}
+                data={props.value[0]}
                 renderItem={({ item }) => (
                     <View style={styles.flatlistView}>
-                        <Text> Hello </Text>
+                        <Text> Sub Brand: {item.name}  Description: {item.des} </Text>
                     </View>
                 )}
             />
@@ -87,3 +106,19 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 });
+
+
+const mapStateToProps = (state) => {
+    return {
+      value: state.value,
+    };
+  };
+
+const mapdispatchToProps = (dispatch) => {
+    return {
+      dispatch
+    };
+  };
+  
+  export default connect(mapStateToProps, mapdispatchToProps)(Data);
+  

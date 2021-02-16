@@ -66,7 +66,7 @@ export default function SignIn(props) {
             {isloading ? <ActivityIndicator size={50} color={Colors.blue} /> :
                 <TouchableOpacity style={styles.opacitySign} onPress={signIn}>
                     <Text style={styles.opacityText}> SIGN IN </Text>
-                </TouchableOpacity >
+                </TouchableOpacity>
             }
             <View style={styles.lastView}>
                 <Text style={styles.signText}>

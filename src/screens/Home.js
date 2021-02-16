@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { Colors } from "../components/Colors";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
     DrawerContentScrollView,
@@ -29,6 +31,19 @@ function CustomDrawerContent(props) {
     );
 }
 
+function SubMenu(props) {
+    return (
+        <View style={{ flex: 1 }}>
+            <DrawerContentScrollView {...props}>
+                <Text>Hello</Text>
+                <Text>Hey</Text>
+                <Text>Hii</Text>
+                <DrawerItemList {...props} />
+            </DrawerContentScrollView>
+        </View>
+    );
+}
+
 const MyDrawer = ({ navigation }) => {
     return (
         <View style={styles.container}>
@@ -47,10 +62,30 @@ const MyDrawer = ({ navigation }) => {
 
 export default function Home() {
 
+    const [change, setChange] = useState(false);
+    // const abc =() => {
+    //     return(
+    //         setChange(!change)
+    //     )
+      
+    // }
+
     return (
         <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
             <Drawer.Screen name="Home" component={MyDrawer} />
-            <Drawer.Screen name="Office" component={() => <Main type="Office" />} />
+            <Drawer.Screen name="Office" 
+            component={() => <Main type="Office" />}
+            options={{
+                    drawerIcon: () => (
+                        <Icon
+                        name="caretdown"
+                        size={20}
+                        color={Colors.black}
+                        />
+                    )
+                    }}
+             />
+            {/* {change ? <Drawer.Screen name="xyz" component={() => console.log("hey")}  /> : null}  */}
         </Drawer.Navigator>
     );
 }
