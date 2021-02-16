@@ -6,29 +6,36 @@ import axios from 'axios';
 import { environment } from '../../environment';
 
 
+
 export default function SignUp(props) {
     const [brand, setBrand] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
+    const [isloading, SetIsloading] = useState(false);
+
 
     const pressHandler = () => {
         props.navigation.navigate("SignIn");
     }
 
-    const handlerClick = () => {
+    const handlerClick = async () => {
+        SetIsloading = (true)
         const user = {
             "brand_name": brand,
             "user_name": name,
             "password": password,
             "confirm_password": confirm
         };
-        axios.post(`${environment.apiBase}/brand/register`, user)
-            .then(res => {
 
-                props.navigation.navigate("SignIn")
-            })
-
+        try {
+            await axios.post(`${environment.apiBase}/brand/register`, user, { headers })
+                .then(res => {
+                    props.navigation.navigate("Home")
+                })
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
@@ -71,9 +78,11 @@ export default function SignUp(props) {
                     <Ionicons name='ios-checkmark-circle' size={20} color={Colors.blue} />
                 </View>
             </View>
-            <TouchableOpacity style={styles.opacitySign} onPress={handlerClick}>
-                <Text style={styles.opacityText}> SIGN UP </Text>
-            </TouchableOpacity>
+            {isloading ? <ActivityIndicator size={50} color={Colors.blue} /> :
+                <TouchableOpacity style={styles.opacitySign} onPress={handlerClick}>
+                    <Text style={styles.opacityText}> SIGN UP </Text>
+                </TouchableOpacity>
+            }
             <View style={styles.lastView}>
                 <Text style={styles.signText}>
                     Already a member?

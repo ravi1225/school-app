@@ -3,10 +3,12 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ActivityInd
 import { environment } from "../../environment";
 import { Colors } from "../components/Colors";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function SignIn(props) {
 
+    const [brand, setBrand] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [isloading, SetIsloading] = useState(false);
@@ -18,25 +20,35 @@ export default function SignIn(props) {
     const signIn = async () => {
         SetIsloading(true)
         const user = {
+            "brand_name": brand,
             "user_name": name,
             "password": password
         };
-        const res = axios.post(`${environment.apiBase}/brand/login`, user)
-            .then(res => {
-                props.navigation.navigate("Home")
-
-            })
+        try {
+            await axios.post(`${environment.apiBase}/brand/login`, user)
+                .then(async (res) => {
+                    await AsyncStorage.setItem("token", res.headers.token)
+                    props.navigation.navigate("Home")
+                })
+        } catch (err) {
+            console.error(err)
+        }
 
     }
 
     return (
-
         <View style={styles.container}>
             <Image
                 source={require('../../assets/Image/appLogo.png')}
                 style={styles.image}
             />
             <View style={styles.innerView}>
+                <Text style={styles.text}> Brand Name :</Text>
+                <TextInput
+                    style={styles.inputText}
+                    value={brand}
+                    onChangeText={(e) => setBrand(e)}
+                />
                 <Text style={styles.text}> User Name :</Text>
                 <TextInput
                     style={styles.inputText}
@@ -51,10 +63,11 @@ export default function SignIn(props) {
                     onChangeText={(e) => setPassword(e)}
                 />
             </View>
-            <TouchableOpacity style={styles.opacitySign} onPress={signIn}>
-                <Text style={styles.opacityText}> SIGN IN </Text>
-            </TouchableOpacity >
-            {isloading ? <ActivityIndicator size={50} color={Colors.blue} /> : null}
+            {isloading ? <ActivityIndicator size={50} color={Colors.blue} /> :
+                <TouchableOpacity style={styles.opacitySign} onPress={signIn}>
+                    <Text style={styles.opacityText}> SIGN IN </Text>
+                </TouchableOpacity >
+            }
             <View style={styles.lastView}>
                 <Text style={styles.signText}>
                     Don't have an Account?

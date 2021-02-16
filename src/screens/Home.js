@@ -7,6 +7,9 @@ import {
     DrawerContentScrollView,
     DrawerItemList,
 } from '@react-navigation/drawer';
+import Main from '../components/Main';
+
+
 
 const Drawer = createDrawerNavigator();
 
@@ -42,20 +45,12 @@ const MyDrawer = ({ navigation }) => {
 }
 
 
-function About({ navigation }) {
-    return (
-        <View>
-            <Text>Navigation Screen</Text>
-        </View>
-    );
-}
-
 export default function Home() {
 
     return (
         <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
             <Drawer.Screen name="Home" component={MyDrawer} />
-            <Drawer.Screen name="About" component={About} />
+            <Drawer.Screen name="Office" component={() => <Main type="Office" />} />
         </Drawer.Navigator>
     );
 }
