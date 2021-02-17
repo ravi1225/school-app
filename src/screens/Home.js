@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { Colors } from "../components/Colors";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
     DrawerContentScrollView,
     DrawerItemList,
 } from '@react-navigation/drawer';
+import Main from '../components/Main';
+
+
 
 const Drawer = createDrawerNavigator();
 
@@ -20,6 +25,19 @@ function CustomDrawerContent(props) {
                     <Text style={{ fontSize: 20 }}> Hello, </Text>
                     <Text style={{ fontWeight: 'bold', fontSize: 20 }}> Ravi Ranjan </Text>
                 </View>
+                <DrawerItemList {...props} />
+            </DrawerContentScrollView>
+        </View>
+    );
+}
+
+function SubMenu(props) {
+    return (
+        <View style={{ flex: 1 }}>
+            <DrawerContentScrollView {...props}>
+                <Text>Hello</Text>
+                <Text>Hey</Text>
+                <Text>Hii</Text>
                 <DrawerItemList {...props} />
             </DrawerContentScrollView>
         </View>
@@ -42,20 +60,32 @@ const MyDrawer = ({ navigation }) => {
 }
 
 
-function About({ navigation }) {
-    return (
-        <View>
-            <Text>Navigation Screen</Text>
-        </View>
-    );
-}
-
 export default function Home() {
+
+    const [change, setChange] = useState(false);
+    // const abc =() => {
+    //     return(
+    //         setChange(!change)
+    //     )
+      
+    // }
 
     return (
         <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
             <Drawer.Screen name="Home" component={MyDrawer} />
-            <Drawer.Screen name="About" component={About} />
+            <Drawer.Screen name="Office" 
+            component={() => <Main type="Office" />}
+            options={{
+                    drawerIcon: () => (
+                        <Icon
+                        name="caretdown"
+                        size={20}
+                        color={Colors.black}
+                        />
+                    )
+                    }}
+             />
+            {/* {change ? <Drawer.Screen name="xyz" component={() => console.log("hey")}  /> : null}  */}
         </Drawer.Navigator>
     );
 }
