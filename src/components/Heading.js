@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { Colors } from "./Colors";
 import AddModal from './AddModal';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 
 export default function Heading(props) {
     const [modalVal, setModalVal] = useState(false);
@@ -14,7 +16,10 @@ export default function Heading(props) {
 
     return (
         <>
-            <View style={styles.headingView}>
+            <SafeAreaView style={styles.headingView}>
+                {/* <TouchableOpacity style={styles.headerFontIcon} onPress={() => props.navigation.navigate.openDrawer()}>
+                    <FontAwesome name="bars" size={40} />
+                </TouchableOpacity> */}
                 <Text style={styles.mainHeader}> {props.type} </Text>
                 <TouchableOpacity
                     style={styles.headerTouchable}
@@ -22,14 +27,13 @@ export default function Heading(props) {
                 >
                     <Icon name="pluscircleo" size={40} color={Colors.blue} />
                 </TouchableOpacity>
-            </View>
+            </SafeAreaView>
 
             {modalVal ? (
                 <AddModal
                     modalVal={modalVal}
                     handleClick={handleClick}
                     setModalVal={setModalVal}
-                    // handleSetStauss={props.handleSetStauss}
                 />
             ) : null}
         </>
@@ -42,9 +46,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         borderColor: Colors.black,
-        marginTop: 5,
+        marginTop: 20,
         paddingHorizontal: 5,
-        minHeight: 100,
+        minHeight: 80,
         borderBottomWidth: 0.5,
         borderBottomColor: Colors.lightgray,
     },
@@ -55,5 +59,9 @@ const styles = StyleSheet.create({
     headerTouchable: {
         fontWeight: "bold",
         marginRight: 10,
+    },
+    headerFontIcon: {
+        alignSelf: 'center',
+        marginLeft: 5
     },
 });

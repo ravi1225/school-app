@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from "../components/Colors";
 import axios from 'axios';
@@ -22,7 +22,7 @@ export default function SignUp(props) {
     }
 
     const handlerClick = async () => {
-        SetIsloading = (true)
+        SetIsloading(true)
         const user = {
             "brand_name": brand,
             "user_name": name,
@@ -30,10 +30,11 @@ export default function SignUp(props) {
             "confirm_password": confirm
         };
         const token = await AsyncStorage.getItem("token");
-        const headers = {
-            "token": token
+        if (token) {
+            const headers = {
+                "token": token
+            }
         }
-
         try {
             await axios.post(`${environment.apiBase}/brand/register`, user, { headers })
                 .then(res => {

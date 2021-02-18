@@ -1,40 +1,25 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from "react-native";
-import { environment } from "../../environment";
 import { Colors } from "../components/Colors";
-import axios from 'axios';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loginRequested } from '../Redux/Action/action';
+import { connect } from "react-redux";
 
 
-export default function SignIn(props) {
+const SignIn = (props) => {
 
     const [brand, setBrand] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [isloading, SetIsloading] = useState(false);
 
     const pressHandler = () => {
         props.navigation.navigate("SignUp");
     }
+    const user = {
+        "brand_name": brand,
+        "user_name": name,
+        "password": password
+    };
 
-    const signIn = async () => {
-        SetIsloading(true)
-        const user = {
-            "brand_name": brand,
-            "user_name": name,
-            "password": password
-        };
-        try {
-            await axios.post(`${environment.apiBase}/brand/login`, user)
-                .then(async (res) => {
-                    await AsyncStorage.setItem("token", res.headers.token)
-                    props.navigation.navigate("Home")
-                })
-        } catch (err) {
-            console.error(err)
-        }
-
-    }
 
     return (
         <View style={styles.container}>
@@ -63,8 +48,8 @@ export default function SignIn(props) {
                     onChangeText={(e) => setPassword(e)}
                 />
             </View>
-            {isloading ? <ActivityIndicator size={50} color={Colors.blue} /> :
-                <TouchableOpacity style={styles.opacitySign} onPress={signIn}>
+            {props.isLoading ? <ActivityIndicator size={50} color={Colors.blue} /> :
+                <TouchableOpacity style={styles.opacitySign} onPress={() => props.loginRequested(user)}>
                     <Text style={styles.opacityText}> SIGN IN </Text>
                 </TouchableOpacity>
             }
@@ -151,3 +136,18 @@ const styles = StyleSheet.create({
 
     }
 });
+
+const mapStateToProps = (state) => {
+    console.log(state, 'llllllll')
+    return {
+        isLoading: state.login.isLoading,
+        isSuccess: state.login.isSuccess,
+    };
+};
+
+const mapdispatchToProps = (Dispatch) => {
+    return {
+        loginRequested: (user) => Dispatch(loginRequested(user))
+    }
+}
+export default connect(mapStateToProps, mapdispatchToProps)(SignIn);

@@ -1,1 +1,11 @@
+export const LOGIN_REQUESTED = 'LOGIN_REQUESTED';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+
+export const SIGNUP_REQUESTED = 'SIGNUP_REQUESTED';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+
 export const GET_SUBBRAND = 'GET_SUBBRAND';
+
+export const Add_SUBBRAND = 'Add_SUBBRAND';

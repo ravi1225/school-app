@@ -8,37 +8,19 @@ import {
     View,
 } from "react-native";
 import { Colors } from "./Colors";
-import axios from 'axios';
-import { environment } from '../../environment';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { connect } from "react-redux";
+import { addSubBrand } from "../Redux/Action/action";
 
 
-export default function AddModal(props) {
-
+const AddModal = (props) => {
 
     const [subbrand, setBrand] = useState('');
     const [description, setDescription] = useState('');
+    const user = {
+        "subBrand_name": subbrand,
+        "description": description
+    };
 
-    const addOffice = async () => {
-        const user = {
-            "subBrand_name": subbrand,
-            "description": description
-        };
-        const token = await AsyncStorage.getItem("token");
-        const headers = {
-            "token": token
-        }
-        try {
-            await axios.post(`${environment.apiBase}/brand/sub_brand/add`, user, { headers })
-                .then(res => {
-                     console.log(res, 'aaaaaaaaaaaaaa')       
-                })
-            setDescription('');
-            setBrand('');
-        } catch (err) {
-            console.error(err)
-        }
-    }
 
     return (
         <View>
@@ -63,14 +45,20 @@ export default function AddModal(props) {
                             <TouchableOpacity onPress={props.handleClick}>
                                 <Text style={styles.textStyle}>Cancel</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={addOffice}>
+                            <TouchableOpacity onPress={() => {
+                                props.addSubBrand(user);
+                                props.setModalVal(false);
+                                setDescription('');
+                                setBrand('')
+                            }}>
                                 <Text style={styles.textStyle}>Done</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
+export const GET_TOKEN = 'GET_TOKEN;'
             </Modal>
-        </View>
+        </View >
     );
 }
 
@@ -129,3 +117,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
 });
+
+
+const mapdispatchToProps = (dispatch) => {
+    return {
+        addSubBrand: (user) => dispatch(addSubBrand(user)),
+    };
+};
+
+export default connect(null, mapdispatchToProps)(AddModal);
