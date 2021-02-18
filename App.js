@@ -8,25 +8,32 @@ import store from './src/Redux/Store/configStore';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import Home from './src/screens/Home';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+const token = AsyncStorage.getItem("token");
+
 
 
 const MainNavigator = createSwitchNavigator({
   SignIn: { screen: SignIn },
   SignUp: { screen: SignUp },
   Home: { screen: Home },
-});
+},
+  { initialRouteName: token ? "Home" : "SignIn" });
 
 const SwitchScreen = createAppContainer(MainNavigator);
 
 export default function App() {
+
   return (
     <NavigationContainer>
-     <Provider store={ store }>
-      <StatusBar style="auto" />
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <SwitchScreen />
-      </ScrollView>
+      <Provider store={store}>
+        <StatusBar style="auto" barStyle='light-content' />
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <SwitchScreen />
+        </ScrollView>
       </Provider>
-    </NavigationContainer>  
+    </NavigationContainer>
   );
 }

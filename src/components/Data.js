@@ -14,35 +14,30 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getSubBrand } from "../Redux/Action/action";
 
 
-const Data =(props) => {
-    let result =[];
-    
+const Data = (props) => {
+    let result = [];
+
     useEffect(() => {
         getResult();
     }, [getResult]);
 
-        const getResult = async () => {
-            const token = await AsyncStorage.getItem("token");
-            const headers = {
-                "token": token
-            }
-            try {
-                     axios.get(`${environment.apiBase}/brand/sub_brands`, { headers })
-                    .then((res) =>{
-                        res.data.forEach((user,i)=>{
-                            if(user.user_name=='Ravi Ranjan')
-                            {
-                            res.data[i].sub_brand.forEach(s=>{
-                                result.push({name:s.subBrand_name,des:s.description})
-                             })
-                            }
-                        })
-                        props.dispatch(getSubBrand(result));
+    const getResult = async () => {
+        const token = await AsyncStorage.getItem("token");
+        const headers = {
+            "token": token
+        }
+        try {
+            axios.get(`${environment.apiBase}/brand/sub_brand/get`, { headers })
+                .then((res) => {
+                    res.data.forEach(s => {
+                        result.push({ name: s.subBrand_name, des: s.description })
                     })
-                }catch (err) {
-                    console.error(err);
-                }        
-            }
+                    props.dispatch(getSubBrand(result));
+                })
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     return (
         <SafeAreaView style={styles.firstView}>
@@ -50,7 +45,9 @@ const Data =(props) => {
                 data={props.value[0]}
                 renderItem={({ item }) => (
                     <View style={styles.flatlistView}>
-                        <Text> Sub Brand: {item.name}  Description: {item.des} </Text>
+                        <Text> Sub Brand: {item.name} </Text>
+                        <Text> Description: {item.des} </Text>
+
                     </View>
                 )}
             />
@@ -65,14 +62,17 @@ const styles = StyleSheet.create({
     },
 
     flatlistView: {
-        flexDirection: "row",
-        justifyContent: "space-around",
+        flexDirection: "column",
+        justifyContent: 'space-between',
         alignItems: "center",
-        paddingVertical: 20,
+        paddingVertical: 25,
         marginHorizontal: 15,
         minHeight: 70,
-        borderBottomWidth: 0.5,
-        borderBottomColor: Colors.lightgray,
+        minWidth: 70,
+        borderWidth: 1,
+        borderColor: Colors.blue,
+        margin: 1,
+        borderRadius: 25
     },
 
     flatlistText: {
@@ -110,15 +110,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-      value: state.value,
+        value: state.value,
     };
-  };
+};
 
 const mapdispatchToProps = (dispatch) => {
     return {
-      dispatch
+        dispatch
     };
-  };
-  
-  export default connect(mapStateToProps, mapdispatchToProps)(Data);
-  
+};
+
+export default connect(mapStateToProps, mapdispatchToProps)(Data);
